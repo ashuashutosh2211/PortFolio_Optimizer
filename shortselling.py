@@ -73,7 +73,7 @@ class PortfolioOptimizer:
     #     weights = []
     #     risks = []
         # return_ = []
-# 
+
         # for i in range(len(targets)):
         #     w, ri, re = self.markowitz_optimization_for_target_return( targets[i])
         #     weights.append(w)

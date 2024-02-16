@@ -132,8 +132,6 @@ class PortfolioOptimizer:
         fig = go.Figure(data=[efficient_frontier_trace,
                               efficient_frontier_points_trace], layout=layout)
 
-        # Show plot
-        # fig.show()
         return fig
 
     def plot_efficient_frontier(self):
