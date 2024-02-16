@@ -1,7 +1,7 @@
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import yfinance as yf
 from scipy.optimize import minimize
 import plotly.graph_objs as go
@@ -65,23 +65,23 @@ class PortfolioOptimizer:
         optimal_risk = portfolio_variance(optimal_weights.x)
         return optimal_weights.x, optimal_risk, target_return
 
-    def plot_efficient_frontier_(self):
-        returns = self.returns 
-        min_return = returns.mean().min()
-        max_return = returns.mean().max()
-        targets = np.linspace(min_return, max_return, 100)
-        weights = []
-        risks = []
-        return_ = []
-
-        for i in range(len(targets)):
-            w, ri, re = self.markowitz_optimization_for_target_return( targets[i])
-            weights.append(w)
-            risks.append(ri)
-            return_.append(re)
-        plt.figure(figsize=(20, 5))
-        plt.plot(risks, return_)
-        plt.show()
+    # def plot_efficient_frontier_(self):
+    #     returns = self.returns 
+    #     min_return = returns.mean().min()
+    #     max_return = returns.mean().max()
+    #     targets = np.linspace(min_return, max_return, 100)
+    #     weights = []
+    #     risks = []
+        # return_ = []
+# 
+        # for i in range(len(targets)):
+        #     w, ri, re = self.markowitz_optimization_for_target_return( targets[i])
+        #     weights.append(w)
+        #     risks.append(ri)
+        #     return_.append(re)
+        # plt.figure(figsize=(20, 5))
+        # plt.plot(risks, return_)
+        # plt.show()
 
     def plot_efficient_frontier_parabola(self):
         returns = self.returns 
