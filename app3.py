@@ -15,7 +15,7 @@ def main():
     df = df[df['Name'].str[0].str.isalpha()]
     df = df.sort_values(by='Name')  # Sort DataFrame by company names
     sorted_companies = ["Select Company" ] + list(df["Name"])
-
+    
     # Generate dropdowns for selecting companies
     selected_companies = []
     selected_tickers = []
@@ -49,7 +49,7 @@ def main():
         end_date = pd.Timestamp.now()
 
         prices = prices = yf.download(stocks, start=start_date, end=end_date)['Adj Close']
-        
+        prices.fillna(0, inplace=True)
         # st.title("Markowitz Optimization Results ") 
         portfolio_optimizer = None 
         if( allow_short_selling == "Yes"):
