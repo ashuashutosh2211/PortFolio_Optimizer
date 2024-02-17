@@ -33,6 +33,7 @@ def main():
 
     stocks = selected_tickers
     if st.button("Submit"):
+        
         try:
             col1, col2 = st.columns(2)
             with col1:
@@ -84,7 +85,7 @@ def main():
                 st.write("Selected Risk Tolerance Level can't be achieved ") 
                 st.write(f"Minimum Risk : {min_risk}") 
                 st.write(f"Maximum Risk : {max_risk}")
-         except:
+        except:
             st.error("An error occurred while processing the data. Please ensure that the data is available and try again.")
 
         
