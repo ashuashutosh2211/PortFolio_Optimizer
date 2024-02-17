@@ -62,8 +62,8 @@ def main():
         returns = portfolio_optimizer.returns
         minimum_return = portfolio_optimizer.optimal_return
         maximum_return = returns.mean().max()
-        minimum_return = round(minimum_return , 5) * 100 
-        maximum_return = round(maximum_return , 5) * 100 
+        minimum_return = round(minimum_return * 100 , 3)  
+        maximum_return = round(maximum_return * 100 , 3)  
         # st.markdown(f"<h4>Optimal Risk - {round(optimal_risk , 5 ) * 100 } % </h4>" , unsafe_allow_html= True)
         # st.markdown(f"<h4>Optimal Return - {round(optimal_return , 5 ) * 100 } % </h4>" , unsafe_allow_html= True)
         # st.markdown("<h4>Optimal Weights  </h4>", unsafe_allow_html=True)
@@ -81,7 +81,7 @@ def main():
         
         returns = portfolio_optimizer.returns
         max_return = returns.mean().max()
-        max_return = round(max_return , 5 ) * 100 
+        max_return = round(max_return * 100  , 3 )  
         # st.write(optimal_return     )
         st.title("Markowitz Optimization Results for Given Target Return") 
         
@@ -93,8 +93,8 @@ def main():
             
         else:
             optimal_weights, optimal_risk, optimal_return = portfolio_optimizer.markowitz_optimization_for_target_return( target_return/100)
-            optimal_risk = round(optimal_risk , 5 ) * 100 
-            optimal_return = round(optimal_return , 5 ) * 100
+            optimal_risk = round(optimal_risk * 100 , 3 )  
+            optimal_return = round(optimal_return *100 , 3 ) 
             st.markdown(f"<h4>Optimal Risk - {optimal_risk} % </h4>" , unsafe_allow_html= True)
             st.markdown(f"<h4>Optimal Return - { optimal_return } % </h4>" , unsafe_allow_html= True)
             st.markdown("<h4>Optimal Weights  </h4>", unsafe_allow_html=True)
@@ -107,7 +107,7 @@ def main():
             with col2:
                 st.markdown("<h5>Weights </h5>", unsafe_allow_html=True)
                 for w in optimal_weights:
-                    w = round(w , 4 ) * 100 
+                    w = round(w * 100  , 2 ) 
                     st.write(f"{w} % ")
 
             fig = portfolio_optimizer.plot_efficient_frontier_for_given_target_return(target_return/100)
