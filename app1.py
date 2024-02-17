@@ -32,83 +32,62 @@ def main():
 
     stocks = selected_tickers
     if st.button("Submit"):
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("<h5>Selected Companies</h5>", unsafe_allow_html=True)
-            for company in selected_companies:
-                st.write(company)
+        try:
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("<h5>Selected Companies</h5>", unsafe_allow_html=True)
+                for company in selected_companies:
+                    st.write(company)
 
-        with col2:
-            st.markdown("<h5>Tickers</h5>", unsafe_allow_html=True)
-            for ticker in selected_tickers:
-                st.write(ticker)
-        
-        start_date = pd.Timestamp.now() - pd.DateOffset(months=3)
-        end_date = pd.Timestamp.now()
+            with col2:
+                st.markdown("<h5>Tickers</h5>", unsafe_allow_html=True)
+                for ticker in selected_tickers:
+                    st.write(ticker)
+            
+            start_date = pd.Timestamp.now() - pd.DateOffset(months=3)
+            end_date = pd.Timestamp.now()
 
-        prices = yf.download(stocks, start=start_date, end=end_date)['Adj Close']
-        prices.fillna(prices.mean(), inplace=True)
-        
-        st.title("Markowitz Optimization Results ") 
-        portfolio_optimizer = None 
-        if( allow_short_selling == "Yes"):
-            portfolio_optimizer = shortselling.PortfolioOptimizer(prices)
-        else : 
-            portfolio_optimizer = no_short_selling.PortfolioOptimizer(prices)
+            prices = yf.download(stocks, start=start_date, end=end_date)['Adj Close']
+            prices.fillna(prices.mean(), inplace=True)
+            
+            st.title("Markowitz Optimization Results ") 
+            portfolio_optimizer = None 
+            if( allow_short_selling == "Yes"):
+                portfolio_optimizer = shortselling.PortfolioOptimizer(prices)
+            else : 
+                portfolio_optimizer = no_short_selling.PortfolioOptimizer(prices)
 
-        
-        optimal_weights, optimal_risk, optimal_return = portfolio_optimizer.markowitz_optimization()
+            
+            optimal_weights, optimal_risk, optimal_return = portfolio_optimizer.markowitz_optimization()
 
-        
-        st.markdown(f"<h4>Optimal Risk - {round(optimal_risk * 100 , 3 )  } % </h4>" , unsafe_allow_html= True)
-        st.markdown(f"<h4>Optimal Return - {round(optimal_return * 100  , 3 ) } % </h4>" , unsafe_allow_html= True)
-        st.markdown("<h4>Optimal Weights  </h4>", unsafe_allow_html=True)
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("<h5>Selected Companies</h5>", unsafe_allow_html=True)
-            for company in selected_companies:
-                st.write(company)
+            
+            st.markdown(f"<h4>Optimal Risk - {round(optimal_risk * 100 , 3 )  } % </h4>" , unsafe_allow_html= True)
+            st.markdown(f"<h4>Optimal Return - {round(optimal_return * 100  , 3 ) } % </h4>" , unsafe_allow_html= True)
+            st.markdown("<h4>Optimal Weights  </h4>", unsafe_allow_html=True)
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("<h5>Selected Companies</h5>", unsafe_allow_html=True)
+                for company in selected_companies:
+                    st.write(company)
 
-        with col2:
-            st.markdown("<h5>Tickers</h5>", unsafe_allow_html=True)
-            for w in optimal_weights:
-                w = round(w * 100 , 2 )  
-                st.write(str(w) + "%")
-        
-        returns = portfolio_optimizer.returns
-        min_return = returns.mean().min()
-        max_return = returns.mean().max()
-        max_return = round(max_return  * 100 , 3 )  
+            with col2:
+                st.markdown("<h5>Tickers</h5>", unsafe_allow_html=True)
+                for w in optimal_weights:
+                    w = round(w * 100 , 2 )  
+                    st.write(str(w) + "%")
+            
+            returns = portfolio_optimizer.returns
+            min_return = returns.mean().min()
+            max_return = returns.mean().max()
+            max_return = round(max_return  * 100 , 3 )  
 
-        # st.title("Markowitz Optimization Results for Given Target Return") 
-        
-        # st.write(f"Maximum Expected return {max_return} %  ")
-        # target_return = st.number_input("Enter the target return (should be less than maximum return):", value=0.0, max_value=max_return)
+           
+            fig = portfolio_optimizer.plot_efficient_frontier()
+            st.plotly_chart(fig)
+        except:
+            st.error("An error occurred while processing the data. Please ensure that the data is available and try again.")
 
-
-
-        # if(st.sidebar.button("Show Analysis")):
-        #     optimal_weights, optimal_risk, optimal_return = portfolio_optimizer.markowitz_optimization_for_target_return( target_return/100)
-
-        #     st.markdown(f"<h4>Optimal Risk - {round(optimal_risk , 5 ) * 100 } % </h4>" , unsafe_allow_html= True)
-        #     st.markdown(f"<h4>Optimal Return - {round(optimal_return , 5 ) * 100 } % </h4>" , unsafe_allow_html= True)
-        #     st.markdown("<h4>Optimal Weights  </h4>", unsafe_allow_html=True)
-        #     col1, col2 = st.columns(2)
-        #     with col1:
-        #         st.markdown("<h5>Selected Companies</h5>", unsafe_allow_html=True)
-        #         for company in selected_companies:
-        #             st.write(company)
-
-        #     with col2:
-        #         st.markdown("<h5>Tickers</h5>", unsafe_allow_html=True)
-        #         for w in optimal_weights:
-        #             w = round(w , 4 ) * 100 
-        #             st.write(str(w) + "%")
-        
-        fig = portfolio_optimizer.plot_efficient_frontier()
-        st.plotly_chart(fig)
-        
-        
+            
 
 if __name__ == "__main__":
     main()
