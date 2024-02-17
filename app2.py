@@ -49,7 +49,7 @@ def main():
         end_date = pd.Timestamp.now()
 
         prices = prices = yf.download(stocks, start=start_date, end=end_date)['Adj Close']
-        prices.fillna(0, inplace=True)
+        prices.fillna(prices.mean(), inplace=True)
         # st.title("Markowitz Optimization Results ") 
         portfolio_optimizer = None 
         if( allow_short_selling == "Yes"):
