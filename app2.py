@@ -99,8 +99,8 @@ def main():
 
                 fig = portfolio_optimizer.plot_efficient_frontier_for_given_target_return(target_return/100)
                 st.plotly_chart(fig)
-            except:
-                st.error("An error occurred while processing the data. Please ensure that the data is available and try again.")
+        except:
+            st.error("An error occurred while processing the data. Please ensure that the data is available and try again.")
 
         
 
